@@ -45,5 +45,10 @@ object ListHelper {
     case _ => false
   }
 
+  def flatten(input: List[_]): List[_] = input match {
+    case Nil => Nil
+    case (list: List[_]) :: tail => flatten(list) ::: flatten(tail)
+    case elem +: tail => elem +: flatten(tail)
+  }
 
 }
