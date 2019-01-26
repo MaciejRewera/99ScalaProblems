@@ -20,7 +20,7 @@ object ListHelper {
 
   private def iterate[A](n: Int, list: List[A]): A = n match {
     case 0 => list head
-    case _ => iterate[A](n-1, list.tail)
+    case _ => iterate[A](n - 1, list.tail)
   }
 
   def length[A](list: List[A]): Int = {
@@ -29,7 +29,7 @@ object ListHelper {
 
   private def lengthCounter[A](counter: Int, list: List[A]): Int = list match {
     case Nil => counter
-    case _   => lengthCounter[A](counter+1, list.tail)
+    case _ => lengthCounter[A](counter + 1, list.tail)
   }
 
   def reverse[A](list: List[A]): List[A] = list match {
@@ -50,5 +50,14 @@ object ListHelper {
     case (list: List[_]) :: tail => flatten(list) ::: flatten(tail)
     case elem +: tail => elem +: flatten(tail)
   }
+
+  def compress[A](input: List[A]): List[A] =
+    input.foldLeft(List.empty[A]) { (list, elem) =>
+      list match {
+        case _ :+ last if last != elem => list :+ elem
+        case Nil => list :+ elem
+        case _ => list
+      }
+    }
 
 }
