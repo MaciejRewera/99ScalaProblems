@@ -54,10 +54,19 @@ object ListHelper {
   def compress[A](input: List[A]): List[A] =
     input.foldLeft(List.empty[A]) { (list, elem) =>
       list match {
-        case _ :+ last if last != elem => list :+ elem
         case Nil => list :+ elem
+        case _ :+ last if last != elem => list :+ elem
         case _ => list
       }
     }
+
+  def pack[A](input: List[A]): List[List[A]] =
+    input.foldLeft(List.empty[(A, Int)]) { (list, elem) =>
+      list match {
+        case Nil => List((elem, 1))
+        case initialTuples :+ lastTuple if lastTuple._1 == elem => initialTuples :+ (elem, lastTuple._2 + 1)
+        case _ => list :+ (elem, 1)
+      }
+    }.map(t => List.fill(t._2)(t._1))
 
 }
