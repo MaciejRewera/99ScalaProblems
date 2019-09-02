@@ -69,4 +69,6 @@ object ListHelper {
       }
     }.map(t => List.fill(t._2)(t._1))
 
+  def encode[A](input: List[A]): List[(Int, A)] = pack(input).map(list => (list.length, list.head))
+
 }
