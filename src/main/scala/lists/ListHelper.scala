@@ -71,4 +71,9 @@ object ListHelper {
 
   def encode[A](input: List[A]): List[(Int, A)] = pack(input).map(list => (list.length, list.head))
 
+  def encodeModified[A](input: List[A]): List[Any] = encode(input).map {
+    case (1, value) => value
+    case t => t
+  }
+
 }
