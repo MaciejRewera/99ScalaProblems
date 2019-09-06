@@ -60,14 +60,7 @@ object ListHelper {
       }
     }
 
-  def pack[A](input: List[A]): List[List[A]] =
-    input.foldLeft(List.empty[(Int, A)]) { (list, elem) =>
-      list match {
-        case Nil => List((1, elem))
-        case initialTuples :+ lastTuple if lastTuple._2 == elem => initialTuples :+ (lastTuple._1 + 1, elem)
-        case _ => list :+ (1, elem)
-      }
-    }.map(t => List.fill(t._1)(t._2))
+  def pack[A](input: List[A]): List[List[A]] = encodeDirect(input).map(t => List.fill(t._1)(t._2))
 
   def encode[A](input: List[A]): List[(Int, A)] = pack(input).map(list => (list.length, list.head))
 
