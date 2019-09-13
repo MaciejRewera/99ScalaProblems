@@ -1,5 +1,7 @@
 package lists
 
+import scala.annotation.tailrec
+
 object ListHelper {
 
   def last[A](list: List[A]): A = list match {
@@ -51,14 +53,17 @@ object ListHelper {
     case elem +: tail => elem +: flatten(tail)
   }
 
-  def compress[A](input: List[A]): List[A] =
-    input.foldLeft(List.empty[A]) { (list, elem) =>
-      list match {
-        case Nil => list :+ elem
-        case _ :+ last if last != elem => list :+ elem
-        case _ => list
-      }
+  def compress[A](input: List[A]): List[A] = {
+
+    @tailrec
+    def comp(revAcc: List[A], rest: List[A]): List[A] = rest match {
+      case Nil => revAcc
+      case hd :: tl if hd != revAcc.head => comp(hd +: revAcc, tl)
+      case _ => comp(revAcc, rest.tail)
     }
+
+    if (input.nonEmpty) comp(List(input.head), input.tail).reverse else Nil
+  }
 
   def pack[A](input: List[A]): List[List[A]] = encodeDirect(input).map(t => List.fill(t._1)(t._2))
 
