@@ -36,7 +36,6 @@ object ListHelper {
 
   def reverse[A](list: List[A]): List[A] = list match {
     case Nil => Nil
-    case lastElement +: Nil => List(lastElement)
     case head +: tail => reverse(tail) :+ head
   }
 
