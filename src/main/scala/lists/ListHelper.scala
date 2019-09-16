@@ -86,4 +86,6 @@ object ListHelper {
 
   def duplicate[A](input: List[A]): List[A] = input.flatMap(elem => List(elem, elem))
 
+  def duplicateN[A](amount: Int, input: List[A]): List[A] = input.flatMap(List.fill(amount)(_))
+
 }
